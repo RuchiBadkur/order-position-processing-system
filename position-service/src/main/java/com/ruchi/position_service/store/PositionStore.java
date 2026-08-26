@@ -1,6 +1,7 @@
 package com.ruchi.position_service.store;
 
 import com.ruchi.position_service.model.OrderEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+@Component
 public class PositionStore {
     private final Map<String, Long> positions = new HashMap<>();
     private final Set<String> processedEventIds = new HashSet<>();
