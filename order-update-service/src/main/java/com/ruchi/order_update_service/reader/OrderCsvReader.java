@@ -32,8 +32,20 @@ public class OrderCsvReader implements Iterable<RawOrderRow> {
 
                 private String readNextLine() {
                     try {
-                        return reader.readLine();
+                        String line = reader.readLine();
+
+                        if (line == null) {
+                            reader.close();
+                        }
+
+                        return line;
+
                     } catch (IOException e) {
+                        try {
+                            reader.close();
+                        } catch (IOException ignored) {
+                        }
+
                         throw new RuntimeException(
                                 "Failed to read CSV file",
                                 e
@@ -59,7 +71,7 @@ public class OrderCsvReader implements Iterable<RawOrderRow> {
 
                     String[] fields = currentLine.split(",", -1);
 
-                    if(fields.length != 4){
+                    if (fields.length != 4) {
                         return new RawOrderRow(
                                 "",
                                 "",
@@ -68,6 +80,7 @@ public class OrderCsvReader implements Iterable<RawOrderRow> {
                                 "Expected 4 columns but found " + fields.length
                         );
                     }
+
                     return new RawOrderRow(
                             fields[0],
                             fields[1],
